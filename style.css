@@ -1,1 +1,189 @@
+/* ===== FOOTBALL AI MAIN STYLE ===== */
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: #07110d;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: #0b1712;
+}
+
+/* ===== HEADER ===== */
+
+header {
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1b382b;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(11, 23, 18, 0.96);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #35e58a;
+  white-space: nowrap;
+}
+
+.coin {
+  background: #162b22;
+  padding: 8px 13px;
+  border-radius: 22px;
+  color: #ffd65a;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ===== MAIN ===== */
+
+main {
+  padding: 20px;
+}
+
+.hero {
+  padding: 24px 0 18px;
+}
+
+.hero h1 {
+  font-size: 31px;
+  line-height: 1.15;
+  margin: 8px 0;
+}
+
+.muted {
+  color: #91a59c;
+  line-height: 1.5;
+}
+
+/* ===== CARD ===== */
+
+.card {
+  background: #10231b;
+  border: 1px solid #1d3b2f;
+  border-radius: 18px;
+  padding: 18px;
+  margin: 14px 0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+.card h2 {
+  font-size: 19px;
+  margin-bottom: 12px;
+}
+
+/* ===== MATCH ===== */
+
+.match {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: center;
+  margin-top: 18px;
+}
+
+.team {
+  width: 40%;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.vs {
+  color: #35e58a;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+/* ===== BUTTON ===== */
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 13px;
+  background: #35df86;
+  color: #03130b;
+  font-weight: 700;
+  margin-top: 14px;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* ===== TAG ===== */
+
+.tag {
+  display: inline-block;
+  background: #17382b;
+  color: #6af0a5;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 360px) {
+  header {
+    padding: 16px;
+  }
+
+  main {
+    padding: 16px;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+
+  .coin {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  .hero h1 {
+    font-size: 27px;
+  }
+
+  .card {
+    padding: 15px;
+    border-radius: 16px;
+  }
+}
