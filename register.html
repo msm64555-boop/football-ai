@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Football AI</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-box {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .auth-logo .logo-icon {
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+
+    .auth-logo h1 {
+      color: #35e58a;
+      font-size: 28px;
+      margin: 0;
+    }
+
+    .auth-logo p {
+      color: #91a59c;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .bonus-box {
+      background: #17382b;
+      border: 1px solid #28503e;
+      color: #8df5b8;
+      border-radius: 13px;
+      padding: 12px 14px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .auth-card {
+      background: #10231b;
+      border: 1px solid #1d3b2f;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+    }
+
+    .auth-card h2 {
+      margin-bottom: 7px;
+      font-size: 23px;
+    }
+
+    .auth-subtitle {
+      color: #91a59c;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 7px;
+      color: #d8e7df;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #28503e;
+      border-radius: 12px;
+      background: #0b1712;
+      color: #fff;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .input-group input:focus {
+      border-color: #35e58a;
+      box-shadow: 0 0 0 2px rgba(53, 229, 138, 0.08);
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      background: #35df86;
+      color: #03130b;
+      margin-top: 4px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+      color: #6f8479;
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #234235;
+    }
+
+    .social-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #0b1712;
+      color: #fff;
+      border: 1px solid #28503e;
+    }
+
+    .google-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      color: #4285f4;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .phone-icon {
+      font-size: 18px;
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #91a59c;
+      font-size: 13px;
+    }
+
+    .text-link {
+      color: #58eca0;
+      text-decoration: none;
+    }
+
+    .terms {
+      color: #6f8479;
+      font-size: 11px;
+      line-height: 1.5;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 360px) {
+      .auth-page {
+        padding: 15px;
+      }
+
+      .auth-card {
+        padding: 18px;
+      }
+
+      .auth-logo h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+    <div class="auth-page">
+
+      <div class="auth-box">
+
+        <div class="auth-logo">
+          <div class="logo-icon">⚽</div>
+          <h1>Football AI</h1>
+          <p>Smarter Analysis. Better Decisions.</p>
+        </div>
+
+        <div class="bonus-box">
+          🎁 New account registration bonus: 10 Free Coins
+        </div>
+
+        <div class="auth-card">
+
+          <h2>Create Account</h2>
+          <p class="auth-subtitle">
+            Create your Football AI account to access premium analysis.
+          </p>
+
+          <form>
+
+            <div class="input-group">
+              <label for="name">Full Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your name"
+                autocomplete="name"
+              >
+            </div>
+
+            <div class="input-group">
+              <label for="emailPhone">Email or Phone</label>
+              <input
+                type="text"
+                id="emailPhone"
+                name="emailPhone"
+                placeholder="Enter email or phone"
+                autocomplete="username"
+              >
+            </div>
+
+            <div class="input-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+              >
+            </div>
+
+            <div class="input-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                autocomplete="new-password"
+              >
+            </div>
+
+            <button type="submit" class="auth-btn">
+              Create Account
+            </button>
+
+          </form>
+
+          <div class="divider">
+            OR
+          </div>
+
+          <button type="button" class="social-btn">
+            <span class="google-icon">G</span>
+            Continue with Google
+          </button>
+
+          <button type="button" class="social-btn">
+            <span class="phone-icon">📱</span>
+            Continue with Phone
+          </button>
+
+          <div class="terms">
+            By creating an account, you agree to use Football AI
+            according to its terms and policies.
+          </div>
+
+          <div class="auth-footer">
+            Already have an account?
+            <a href="login.html" class="text-link">Login</a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
