@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Match Details - Football AI</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.details-header{padding:18px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1b382b}
+.back{width:38px;height:38px;border:1px solid #28503e;border-radius:11px;background:#10231b;color:#fff;font-size:20px}
+.title{font-size:20px;font-weight:800}
+main{padding:18px 20px 30px}
+.match-box{background:#10231b;border:1px solid #1d3b2f;border-radius:20px;padding:20px;text-align:center}
+.status{display:inline-block;background:#17382b;color:#6af0a5;padding:6px 11px;border-radius:20px;font-size:11px;font-weight:700}
+.match-time{color:#91a59c;font-size:12px;margin:10px 0 20px}
+.teams{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.team{width:40%;font-weight:800;font-size:15px;line-height:1.5}
+.team-icon{font-size:36px;margin-bottom:7px}
+.vs{color:#35e58a;font-weight:900;font-size:13px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:18px 0}
+.tab{padding:10px 4px;border:1px solid #28503e;border-radius:10px;background:#10231b;color:#91a59c;font-size:11px;font-weight:700}
+.tab.active{background:#35df86;color:#03130b;border-color:#35df86}
+.section{background:#10231b;border:1px solid #1d3b2f;border-radius:17px;padding:17px;margin-bottom:13px}
+.section h2{font-size:16px;margin-bottom:14px}
+.section p{color:#91a59c;font-size:12px;line-height:1.5}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #1b382b;font-size:12px}
+.stat-row:last-child{border-bottom:0}
+.stat-value{font-weight:800;color:#fff}
+.stat-name{color:#91a59c}
+.form{display:flex;gap:6px}
+.form span{width:27px;height:27px;border-radius:8px;background:#17382b;display:flex;align-items:center;justify-content:center;color:#6af0a5;font-size:11px;font-weight:800}
+.ai-box{background:linear-gradient(145deg,#123525,#0d1d16);border:1px solid #35e58a;border-radius:18px;padding:18px;margin-top:16px}
+.ai-label{color:#6af0a5;font-size:11px;font-weight:800}
+.ai-box h2{margin:8px 0;font-size:19px}
+.ai-box p{color:#91a59c;font-size:12px;line-height:1.5}
+.ai-btn{display:block;width:100%;margin-top:14px;padding:14px;border-radius:12px;background:#35df86;color:#03130b;text-align:center;text-decoration:none;font-weight:800;font-size:14px}
+.note{text-align:center;color:#6f8479;font-size:10px;margin-top:12px;line-height:1.5}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="details-header">
+<button class="back" onclick="history.back()">←</button>
+<div class="title">Match Details</div>
+</header>
+
+<main>
+
+<!-- MATCH -->
+
+<div class="match-box">
+
+<span class="status">MATCH INFORMATION</span>
+
+<div class="match-time">
+Kickoff time will come from the football API
+</div>
+
+<div class="teams">
+
+<div class="team">
+<div class="team-icon">⚽</div>
+Team A
+</div>
+
+<div class="vs">VS</div>
+
+<div class="team">
+<div class="team-icon">⚽</div>
+Team B
+</div>
+
+</div>
+
+</div>
+
+<!-- TABS -->
+
+<div class="tabs">
+<button class="tab active">Overview</button>
+<button class="tab">Stats</button>
+<button class="tab">H2H</button>
+<button class="tab">Lineup</button>
+</div>
+
+<!-- OVERVIEW -->
+
+<div class="section">
+<h2>📋 Overview</h2>
+
+<div class="stat-row">
+<span class="stat-name">Competition</span>
+<span class="stat-value">API Data</span>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Venue</span>
+<span class="stat-value">Available from API</span>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Match Status</span>
+<span class="stat-value">Upcoming</span>
+</div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="section">
+<h2>📈 Team Form</h2>
+
+<div class="stat-row">
+<span class="stat-name">Team A</span>
+<div class="form">
+<span>—</span>
+<span>—</span>
+<span>—</span>
+<span>—</span>
+<span>—</span>
+</div>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Team B</span>
+<div class="form">
+<span>—</span>
+<span>—</span>
+<span>—</span>
+<span>—</span>
+<span>—</span>
+</div>
+</div>
+
+<p style="margin-top:10px">
+Recent results will be loaded from real football data.
+</p>
+</div>
+
+<!-- STATS -->
+
+<div class="section">
+<h2>📊 Match Statistics</h2>
+
+<div class="stat-row">
+<span class="stat-name">Goals Scored</span>
+<span class="stat-value">— : —</span>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Goals Conceded</span>
+<span class="stat-value">— : —</span>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Attack</span>
+<span class="stat-value">— : —</span>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Defense</span>
+<span class="stat-value">— : —</span>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Possession</span>
+<span class="stat-value">— : —</span>
+</div>
+
+</div>
+
+<!-- H2H -->
+
+<div class="section">
+<h2>⚔️ Head to Head</h2>
+
+<p>
+Previous meetings between the two teams will be loaded from the football API.
+</p>
+
+<div class="stat-row">
+<span class="stat-name">Previous Matches</span>
+<span class="stat-value">—</span>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Team A Wins</span>
+<span class="stat-value">—</span>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Draws</span>
+<span class="stat-value">—</span>
+</div>
+
+<div class="stat-row">
+<span class="stat-name">Team B Wins</span>
+<span class="stat-value">—</span>
+</div>
+
+</div>
+
+<!-- LINEUP -->
+
+<div class="section">
+<h2>👥 Lineup</h2>
+
+<p>
+Starting XI and substitutes will appear here when lineup data is available from the API.
+</p>
+</div>
+
+<!-- AI -->
+
+<div class="ai-box">
+
+<div class="ai-label">PREMIUM AI ANALYSIS</div>
+
+<h2>🤖 Analyze This Match</h2>
+
+<p>
+Get an estimated winner, win probabilities, possible score and key factors based on available match data.
+</p>
+
+<a href="login.html" class="ai-btn">
+Login to Analyze — 10 Coins
+</a>
+
+<div class="note">
+AI predictions are estimates and are not guaranteed results.
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+</body>
+</html>
