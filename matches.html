@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matches - Football AI</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .page-header {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #1b382b;
+    }
+
+    .back-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      border: 1px solid #28503e;
+      background: #10231b;
+      color: #fff;
+      font-size: 20px;
+    }
+
+    .page-title {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    main {
+      padding: 18px 20px 28px;
+    }
+
+    .date-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 16px;
+    }
+
+    .date-tab {
+      flex: 0 0 auto;
+      border: 1px solid #28503e;
+      background: #10231b;
+      color: #91a59c;
+      padding: 11px 15px;
+      border-radius: 11px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .date-tab.active {
+      background: #35df86;
+      color: #03130b;
+      border-color: #35df86;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .filter-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 11px;
+      border: 1px solid #28503e;
+      background: #10231b;
+      color: #d8e7df;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .filter-icon {
+      margin-right: 6px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 18px 0 10px;
+    }
+
+    .section-heading h2 {
+      font-size: 16px;
+    }
+
+    .section-heading span {
+      color: #6af0a5;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .league-card {
+      background: #0f2119;
+      border: 1px solid #1d3b2f;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .league-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 14px;
+      background: #13291f;
+      border-bottom: 1px solid #1d3b2f;
+    }
+
+    .league-name {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .league-country {
+      color: #91a59c;
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .league-status {
+      color: #35e58a;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .match-placeholder {
+      padding: 22px 16px;
+      text-align: center;
+    }
+
+    .match-placeholder-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .match-placeholder h3 {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .match-placeholder p {
+      color: #91a59c;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .api-note {
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 13px;
+      background: #10231b;
+      border: 1px solid #1d3b2f;
+      color: #91a59c;
+      font-size: 11px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .bottom-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 11px 10px;
+      border-top: 1px solid #1b382b;
+      background: #0b1712;
+      position: sticky;
+      bottom: 0;
+    }
+
+    .nav-item {
+      border: 0;
+      background: transparent;
+      color: #6f8479;
+      font-size: 10px;
+      padding: 7px 3px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .nav-item.active {
+      color: #35e58a;
+      font-weight: 800;
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 3px;
+    }
+
+    @media (max-width: 360px) {
+      main {
+        padding: 16px;
+      }
+
+      .filters {
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- HEADER -->
+
+    <header class="page-header">
+      <button class="back-btn" type="button" onclick="history.back()">
+        ←
+      </button>
+
+      <div class="page-title">
+        Matches
+      </div>
+    </header>
+
+    <main>
+
+      <!-- DATE TABS -->
+
+      <div class="date-tabs">
+
+        <button class="date-tab active" type="button">
+          Today
+        </button>
+
+        <button class="date-tab" type="button">
+          Tomorrow
+        </button>
+
+        <button class="date-tab" type="button">
+          Upcoming
+        </button>
+
+      </div>
+
+      <!-- FILTERS -->
+
+      <div class="filters">
+
+        <button class="filter-btn" type="button">
+          <span class="filter-icon">🏆</span>
+          League
+        </button>
+
+        <button class="filter-btn" type="button">
+          <span class="filter-icon">🌍</span>
+          Country
+        </button>
+
+      </div>
+
+      <!-- TODAY -->
+
+      <div class="section-heading">
+        <h2>Today's Matches</h2>
+        <span>REAL FIXTURES</span>
+      </div>
+
+      <!-- LEAGUE 1 -->
+
+      <div class="league-card">
+
+        <div class="league-header">
+          <div>
+            <div class="league-name">
+              🏆 League / Competition
+            </div>
+            <div class="league-country">
+              Country / Region
+            </div>
+          </div>
+
+          <div class="league-status">
+            LIVE DATA
+          </div>
+        </div>
+
+        <div class="match-placeholder">
+
+          <div class="match-placeholder-icon">
+            ⚽
+          </div>
+
+          <h3>Waiting for real matches</h3>
+
+          <p>
+            Real fixtures from the football API will appear here.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- LEAGUE 2 -->
+
+      <div class="league-card">
+
+        <div class="league-header">
+          <div>
+            <div class="league-name">
+              🏆 Another Competition
+            </div>
+            <div class="league-country">
+              Country / Region
+            </div>
+          </div>
+
+          <div class="league-status">
+            API
+          </div>
+        </div>
+
+        <div class="match-placeholder">
+
+          <div class="match-placeholder-icon">
+            🕒
+          </div>
+
+          <h3>Upcoming fixtures</h3>
+
+          <p>
+            Match cards will be generated automatically from live API data.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- API NOTE -->
+
+      <div class="api-note">
+        ⚡ Match data source: Football API<br>
+        No demo or manually invented matches will be used.
+      </div>
+
+    </main>
+
+    <!-- BOTTOM NAV -->
+
+    <nav class="bottom-nav">
+
+      <a href="index.html" class="nav-item">
+        <span class="nav-icon">⌂</span>
+        Home
+      </a>
+
+      <a href="matches.html" class="nav-item active">
+        <span class="nav-icon">⚽</span>
+        Matches
+      </a>
+
+      <a href="login.html" class="nav-item">
+        <span class="nav-icon">🤖</span>
+        Analysis
+      </a>
+
+      <a href="login.html" class="nav-item">
+        <span class="nav-icon">👤</span>
+        Profile
+      </a>
+
+    </nav>
+
+  </div>
+
+</body>
+</html>
