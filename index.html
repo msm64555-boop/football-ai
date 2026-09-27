@@ -1,56 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Football AI</title><link rel="stylesheet" href="style.css">
-<style>
-*{box-sizing:border-box}body{margin:0;background:#07110d;color:#fff;font-family:Arial,sans-serif}
-.app{max-width:480px;margin:auto;min-height:100vh;background:#0b1712}
-header{padding:20px;display:flex;justify-content:space-between;border-bottom:1px solid #1b382b}
-.logo{font-size:23px;font-weight:bold;color:#35e58a}.coin{background:#162b22;padding:9px 13px;border-radius:20px;color:#ffd65a}
-main{padding:20px}.hero{padding:25px 0}.hero h1{font-size:32px;margin:5px 0}.muted{color:#91a59c}
-.card{background:#10231b;border:1px solid #1d3b2f;border-radius:18px;padding:18px;margin:14px 0}
-.match{display:flex;align-items:center;justify-content:space-between;text-align:center}.team{width:40%;font-weight:bold}.vs{color:#35e58a;font-weight:bold}
-.btn{width:100%;padding:14px;border:0;border-radius:13px;background:#35df86;color:#03130b;font-weight:bold;margin-top:12px;font-size:15px}
-.tag{display:inline-block;background:#17382b;color:#6af0a5;padding:5px 9px;border-radius:20px;font-size:12px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Football AI</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .home-header {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1b382b;
+    }
+
+    .home-logo {
+      color: #35e58a;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .login-link {
+      color: #fff;
+      text-decoration: none;
+      background: #17382b;
+      border: 1px solid #28503e;
+      padding: 9px 13px;
+      border-radius: 11px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hero {
+      padding: 25px 0 18px;
+    }
+
+    .hero h1 {
+      font-size: 30px;
+      margin: 9px 0;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin: 10px 0 18px;
+      padding-bottom: 3px;
+    }
+
+    .tab {
+      white-space: nowrap;
+      border: 1px solid #28503e;
+      background: #10231b;
+      color: #91a59c;
+      padding: 11px 15px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: #35df86;
+      color: #03130b;
+      border-color: #35df86;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 22px 0 12px;
+    }
+
+    .section-title h2 {
+      font-size: 18px;
+    }
+
+    .section-title span {
+      color: #35e58a;
+      font-size: 12px;
+    }
+
+    .empty-card {
+      text-align: center;
+      padding: 30px 18px;
+      border: 1px dashed #28503e;
+      border-radius: 17px;
+      background: #0d1d16;
+    }
+
+    .empty-icon {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .empty-card h3 {
+      margin-bottom: 8px;
+    }
+
+    .empty-card p {
+      color: #91a59c;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .feature-card {
+      background: linear-gradient(145deg, #102a20, #0d1d16);
+      border: 1px solid #1d4936;
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 14px;
+    }
+
+    .feature-card h2 {
+      margin: 10px 0 8px;
+      font-size: 19px;
+    }
+
+    .feature-card p {
+      color: #91a59c;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .feature-btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 14px;
+      padding: 13px;
+      border-radius: 12px;
+      background: #35df86;
+      color: #03130b;
+      font-weight: 800;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .info-card {
+      background: #10231b;
+      border: 1px solid #1d3b2f;
+      border-radius: 15px;
+      padding: 16px;
+    }
+
+    .info-card .icon {
+      font-size: 23px;
+    }
+
+    .info-card h3 {
+      margin: 8px 0 5px;
+      font-size: 14px;
+    }
+
+    .info-card p {
+      color: #91a59c;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .bottom-space {
+      height: 25px;
+    }
+  </style>
 </head>
+
 <body>
-<div class="app">
-<header>
-<div class="logo">⚽ Football AI</div>
-<div class="coin">🪙 10</div>
-</header>
 
-<main>
-<div class="hero">
-<span class="tag">AI FOOTBALL ANALYSIS</span>
-<h1>Understand the game.</h1>
-<p class="muted">Smarter analysis. Better decisions.</p>
-</div>
+  <div class="app">
 
-<div class="card">
-<span class="tag">TODAY</span>
-<h2>🔥 Featured Match</h2>
+    <header class="home-header">
+      <div class="home-logo">⚽ Football AI</div>
 
-<div class="match">
-<div class="team">🔴<br>Arsenal</div>
-<div class="vs">VS</div>
-<div class="team">🔵<br>Chelsea</div>
-</div>
+      <a href="login.html" class="login-link">
+        Login
+      </a>
+    </header>
 
-<button class="btn">View Match</button>
-</div>
+    <main>
 
-<div class="card">
-<h2>🤖 AI Analysis</h2>
-<p class="muted">
-Get estimated winner, probabilities, possible score and key factors.
-</p>
-<button class="btn">Start Analysis</button>
-</div>
-</main>
-</div>
+      <section class="hero">
+        <span class="tag">AI FOOTBALL ANALYSIS</span>
+
+        <h1>Understand the game.</h1>
+
+        <p class="muted">
+          Real football data, smart analysis and estimated predictions.
+        </p>
+      </section>
+
+      <!-- MAIN TABS -->
+
+      <div class="tabs">
+        <button class="tab active" type="button">
+          All Football
+        </button>
+
+        <button class="tab" type="button">
+          Live Today
+        </button>
+      </div>
+
+      <!-- MATCH SECTION -->
+
+      <div class="section-title">
+        <h2>Today's Matches</h2>
+        <span>REAL DATA</span>
+      </div>
+
+      <div class="empty-card">
+
+        <div class="empty-icon">⚽</div>
+
+        <h3>Matches will appear here</h3>
+
+        <p>
+          Real football fixtures will be loaded from the football API.
+          No fake or demo matches will be used in the final app.
+        </p>
+
+      </div>
+
+      <!-- AI FEATURE -->
+
+      <div class="feature-card">
+
+        <span class="tag">PREMIUM AI</span>
+
+        <h2>🤖 AI Match Analysis</h2>
+
+        <p>
+          Get estimated winner, win probabilities, possible score
+          and important match factors.
+        </p>
+
+        <a href="login.html" class="feature-btn">
+          Login to Analyze
+        </a>
+
+      </div>
+
+      <!-- FEATURES -->
+
+      <div class="section-title">
+        <h2>Football AI</h2>
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-card">
+          <div class="icon">📊</div>
+          <h3>Team Stats</h3>
+          <p>
+            Form, goals and defensive statistics.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <div class="icon">🤖</div>
+          <h3>AI Analysis</h3>
+          <p>
+            Data-based estimated match analysis.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <div class="icon">🎯</div>
+          <h3>Prediction</h3>
+          <p>
+            Estimated outcome and possible scores.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <div class="icon">🪙</div>
+          <h3>Coins</h3>
+          <p>
+            Use coins for premium analysis.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="bottom-space"></div>
+
+    </main>
+
+  </div>
+
 </body>
 </html>
