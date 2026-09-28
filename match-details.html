@@ -4,241 +4,663 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Match Details - Football AI</title>
+
 <link rel="stylesheet" href="style.css">
 
 <style>
-.details-header{padding:18px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1b382b}
-.back{width:38px;height:38px;border:1px solid #28503e;border-radius:11px;background:#10231b;color:#fff;font-size:20px}
-.title{font-size:20px;font-weight:800}
-main{padding:18px 20px 30px}
-.match-box{background:#10231b;border:1px solid #1d3b2f;border-radius:20px;padding:20px;text-align:center}
-.status{display:inline-block;background:#17382b;color:#6af0a5;padding:6px 11px;border-radius:20px;font-size:11px;font-weight:700}
-.match-time{color:#91a59c;font-size:12px;margin:10px 0 20px}
-.teams{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.team{width:40%;font-weight:800;font-size:15px;line-height:1.5}
-.team-icon{font-size:36px;margin-bottom:7px}
-.vs{color:#35e58a;font-weight:900;font-size:13px}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:18px 0}
-.tab{padding:10px 4px;border:1px solid #28503e;border-radius:10px;background:#10231b;color:#91a59c;font-size:11px;font-weight:700}
-.tab.active{background:#35df86;color:#03130b;border-color:#35df86}
-.section{background:#10231b;border:1px solid #1d3b2f;border-radius:17px;padding:17px;margin-bottom:13px}
-.section h2{font-size:16px;margin-bottom:14px}
-.section p{color:#91a59c;font-size:12px;line-height:1.5}
-.stat-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #1b382b;font-size:12px}
-.stat-row:last-child{border-bottom:0}
-.stat-value{font-weight:800;color:#fff}
-.stat-name{color:#91a59c}
-.form{display:flex;gap:6px}
-.form span{width:27px;height:27px;border-radius:8px;background:#17382b;display:flex;align-items:center;justify-content:center;color:#6af0a5;font-size:11px;font-weight:800}
-.ai-box{background:linear-gradient(145deg,#123525,#0d1d16);border:1px solid #35e58a;border-radius:18px;padding:18px;margin-top:16px}
-.ai-label{color:#6af0a5;font-size:11px;font-weight:800}
-.ai-box h2{margin:8px 0;font-size:19px}
-.ai-box p{color:#91a59c;font-size:12px;line-height:1.5}
-.ai-btn{display:block;width:100%;margin-top:14px;padding:14px;border-radius:12px;background:#35df86;color:#03130b;text-align:center;text-decoration:none;font-weight:800;font-size:14px}
-.note{text-align:center;color:#6f8479;font-size:10px;margin-top:12px;line-height:1.5}
+body{
+  background:#07110d;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+.page{
+  max-width:720px;
+  margin:auto;
+  min-height:100vh;
+  background:#0b1712;
+}
+
+.topbar{
+  height:70px;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #1d3b2f;
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(11,23,18,.96);
+  backdrop-filter:blur(10px);
+}
+
+.back{
+  width:46px;
+  height:46px;
+  border:1px solid #285541;
+  border-radius:14px;
+  background:#10231b;
+  color:#fff;
+  font-size:22px;
+}
+
+.title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.content{
+  padding:18px;
+}
+
+/* MATCH HEADER */
+.match-card{
+  background:#10251c;
+  border:1px solid #1d4635;
+  border-radius:22px;
+  padding:24px 16px;
+  text-align:center;
+}
+
+.status{
+  display:inline-block;
+  padding:7px 14px;
+  border-radius:20px;
+  background:#17422f;
+  color:#5df09f;
+  font-size:11px;
+  font-weight:800;
+}
+
+.kickoff{
+  margin-top:10px;
+  color:#91a99d;
+  font-size:13px;
+}
+
+.teams{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:22px;
+}
+
+.team{
+  width:38%;
+  text-align:center;
+}
+
+.team img{
+  width:72px;
+  height:72px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 10px;
+}
+
+.team-name{
+  font-size:16px;
+  font-weight:800;
+  line-height:1.3;
+}
+
+.vs{
+  color:#35e58a;
+  font-size:18px;
+  font-weight:900;
+}
+
+/* AI */
+.ai-card{
+  margin:16px 0;
+  padding:20px;
+  border-radius:20px;
+  border:1px solid #36e58a;
+  background:linear-gradient(145deg,#123325,#0d2118);
+}
+
+.ai-badge{
+  display:inline-block;
+  background:#174b34;
+  color:#65f0a4;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.ai-card h2{
+  margin:10px 0 7px;
+  font-size:21px;
+}
+
+.ai-card p{
+  color:#9bb0a6;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.analyze-btn{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:15px;
+  margin-top:14px;
+  background:#35df86;
+  color:#03130b;
+  font-size:15px;
+  font-weight:900;
+}
+
+/* SECTIONS */
+.section{
+  background:#10231b;
+  border:1px solid #1d3b2f;
+  border-radius:18px;
+  padding:18px;
+  margin-top:14px;
+}
+
+.section h2{
+  font-size:18px;
+  margin-bottom:15px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:12px 0;
+  border-bottom:1px solid #1b382d;
+  color:#9caf a5;
+}
+
+.row:last-child{
+  border-bottom:0;
+}
+
+.label{
+  color:#8fa69a;
+}
+
+.value{
+  color:#fff;
+  font-weight:700;
+  text-align:right;
+}
+
+/* FORM */
+.form-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid #1b382d;
+}
+
+.form-row:last-child{
+  border-bottom:0;
+}
+
+.form-team{
+  color:#a9bbb2;
+}
+
+.form{
+  display:flex;
+  gap:5px;
+}
+
+.form span{
+  width:25px;
+  height:25px;
+  border-radius:7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#17422f;
+  color:#5df09f;
+  font-size:11px;
+  font-weight:800;
+}
+
+/* TABS */
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin-top:14px;
+}
+
+.tab{
+  padding:11px 5px;
+  border:1px solid #285541;
+  border-radius:11px;
+  background:#0d2118;
+  color:#91a99d;
+  font-size:12px;
+  font-weight:700;
+}
+
+.tab.active{
+  background:#35df86;
+  color:#03130b;
+  border-color:#35df86;
+}
+
+/* EMPTY */
+.empty{
+  color:#91a99d;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.error{
+  color:#ff9b9b;
+}
+
+@media(max-width:480px){
+  .content{
+    padding:14px;
+  }
+
+  .team img{
+    width:62px;
+    height:62px;
+  }
+
+  .team-name{
+    font-size:14px;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="page">
 
-<header class="details-header">
-<button class="back" onclick="history.back()">←</button>
-<div class="title">Match Details</div>
-</header>
+  <div class="topbar">
+    <button class="back" onclick="history.back()">←</button>
+    <div class="title">Match Details</div>
+    <div style="width:46px"></div>
+  </div>
 
-<main>
+  <main class="content">
 
-<!-- MATCH -->
+    <!-- MATCH -->
+    <div class="match-card">
 
-<div class="match-box">
+      <div class="status" id="status">LOADING</div>
 
-<span class="status">MATCH INFORMATION</span>
+      <div class="kickoff" id="kickoff">
+        Loading match information...
+      </div>
 
-<div class="match-time">
-Kickoff time will come from the football API
+      <div class="teams">
+
+        <div class="team">
+          <img id="homeLogo" src="" alt="Home team">
+          <div class="team-name" id="homeName">Loading...</div>
+        </div>
+
+        <div class="vs">VS</div>
+
+        <div class="team">
+          <img id="awayLogo" src="" alt="Away team">
+          <div class="team-name" id="awayName">Loading...</div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- AI ANALYSIS — TOP -->
+    <div class="ai-card">
+
+      <span class="ai-badge">PREMIUM AI ANALYSIS</span>
+
+      <h2>🤖 Analyze This Match</h2>
+
+      <p>
+        Get estimated winner, win probabilities, possible score,
+        recent form and important match factors.
+      </p>
+
+      <button class="analyze-btn" onclick="startAnalysis()">
+        Login to Analyze — 10 Coins
+      </button>
+
+    </div>
+
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active">Overview</button>
+      <button class="tab">Stats</button>
+      <button class="tab">H2H</button>
+      <button class="tab">Lineup</button>
+    </div>
+
+
+    <!-- OVERVIEW -->
+    <div class="section">
+
+      <h2>📋 Overview</h2>
+
+      <div class="row">
+        <span class="label">Competition</span>
+        <span class="value" id="league">—</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Venue</span>
+        <span class="value" id="venue">—</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Match Status</span>
+        <span class="value" id="matchStatus">—</span>
+      </div>
+
+    </div>
+
+
+    <!-- FORM -->
+    <div class="section">
+
+      <h2>📈 Team Form</h2>
+
+      <div class="form-row">
+        <span class="form-team" id="formHomeName">Home</span>
+
+        <div class="form">
+          <span>—</span>
+          <span>—</span>
+          <span>—</span>
+          <span>—</span>
+          <span>—</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <span class="form-team" id="formAwayName">Away</span>
+
+        <div class="form">
+          <span>—</span>
+          <span>—</span>
+          <span>—</span>
+          <span>—</span>
+          <span>—</span>
+        </div>
+      </div>
+
+      <p class="empty">
+        Recent results will be loaded from real football data.
+      </p>
+
+    </div>
+
+
+    <!-- STATS -->
+    <div class="section">
+
+      <h2>📊 Match Statistics</h2>
+
+      <div class="row">
+        <span class="label">Goals Scored</span>
+        <span class="value">— : —</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Goals Conceded</span>
+        <span class="value">— : —</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Attack</span>
+        <span class="value">— : —</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Defense</span>
+        <span class="value">— : —</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Possession</span>
+        <span class="value">— : —</span>
+      </div>
+
+    </div>
+
+
+    <!-- H2H -->
+    <div class="section">
+
+      <h2>🤝 Head to Head</h2>
+
+      <div class="row">
+        <span class="label">Previous Matches</span>
+        <span class="value">—</span>
+      </div>
+
+      <div class="row">
+        <span class="label" id="h2hHome">Home Wins</span>
+        <span class="value">—</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Draws</span>
+        <span class="value">—</span>
+      </div>
+
+      <div class="row">
+        <span class="label" id="h2hAway">Away Wins</span>
+        <span class="value">—</span>
+      </div>
+
+    </div>
+
+
+    <!-- LINEUP -->
+    <div class="section">
+
+      <h2>👥 Lineup</h2>
+
+      <p class="empty">
+        Starting XI and substitutes will appear here when lineup
+        data is available from the football API.
+      </p>
+
+    </div>
+
+    <p class="empty" style="text-align:center;margin:20px 0;">
+      AI predictions are estimates and are not guaranteed results.
+    </p>
+
+  </main>
+
 </div>
 
-<div class="teams">
 
-<div class="team">
-<div class="team-icon">⚽</div>
-Team A
-</div>
+<script>
 
-<div class="vs">VS</div>
+const WORKER_URL =
+"https://wispy-firefly-43e6.facebookhack10203.workers.dev";
 
-<div class="team">
-<div class="team-icon">⚽</div>
-Team B
-</div>
+const params = new URLSearchParams(window.location.search);
+const fixtureId = params.get("id");
 
-</div>
+function setText(id, text){
+  const el = document.getElementById(id);
+  if(el) el.textContent = text || "—";
+}
 
-</div>
+function setLogo(id, url, teamName){
 
-<!-- TABS -->
+  const img = document.getElementById(id);
 
-<div class="tabs">
-<button class="tab active">Overview</button>
-<button class="tab">Stats</button>
-<button class="tab">H2H</button>
-<button class="tab">Lineup</button>
-</div>
+  if(!img) return;
 
-<!-- OVERVIEW -->
+  if(url){
 
-<div class="section">
-<h2>📋 Overview</h2>
+    img.src = url;
 
-<div class="stat-row">
-<span class="stat-name">Competition</span>
-<span class="stat-value">API Data</span>
-</div>
+    img.onerror = function(){
+      this.style.display = "none";
+    };
 
-<div class="stat-row">
-<span class="stat-name">Venue</span>
-<span class="stat-value">Available from API</span>
-</div>
+  }else{
 
-<div class="stat-row">
-<span class="stat-name">Match Status</span>
-<span class="stat-value">Upcoming</span>
-</div>
+    img.style.display = "none";
 
-</div>
+  }
 
-<!-- FORM -->
+  img.alt = teamName || "Team";
+}
 
-<div class="section">
-<h2>📈 Team Form</h2>
 
-<div class="stat-row">
-<span class="stat-name">Team A</span>
-<div class="form">
-<span>—</span>
-<span>—</span>
-<span>—</span>
-<span>—</span>
-<span>—</span>
-</div>
-</div>
+function formatKickoff(date){
 
-<div class="stat-row">
-<span class="stat-name">Team B</span>
-<div class="form">
-<span>—</span>
-<span>—</span>
-<span>—</span>
-<span>—</span>
-<span>—</span>
-</div>
-</div>
+  if(!date) return "Kickoff time unavailable";
 
-<p style="margin-top:10px">
-Recent results will be loaded from real football data.
-</p>
-</div>
+  const d = new Date(date);
 
-<!-- STATS -->
+  return d.toLocaleString("en-BD",{
+    timeZone:"Asia/Dhaka",
+    dateStyle:"medium",
+    timeStyle:"short"
+  });
 
-<div class="section">
-<h2>📊 Match Statistics</h2>
+}
 
-<div class="stat-row">
-<span class="stat-name">Goals Scored</span>
-<span class="stat-value">— : —</span>
-</div>
 
-<div class="stat-row">
-<span class="stat-name">Goals Conceded</span>
-<span class="stat-value">— : —</span>
-</div>
+async function loadMatch(){
 
-<div class="stat-row">
-<span class="stat-name">Attack</span>
-<span class="stat-value">— : —</span>
-</div>
+  if(!fixtureId){
 
-<div class="stat-row">
-<span class="stat-name">Defense</span>
-<span class="stat-value">— : —</span>
-</div>
+    setText("status","ERROR");
+    setText("kickoff","Match ID missing");
+    return;
 
-<div class="stat-row">
-<span class="stat-name">Possession</span>
-<span class="stat-value">— : —</span>
-</div>
+  }
 
-</div>
+  /*
+    The current Worker endpoint accepts a date.
+    We search today's fixtures first.
+  */
 
-<!-- H2H -->
+  const now = new Date();
 
-<div class="section">
-<h2>⚔️ Head to Head</h2>
+  const bdDate = new Intl.DateTimeFormat("en-CA",{
+    timeZone:"Asia/Dhaka",
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  }).format(now);
 
-<p>
-Previous meetings between the two teams will be loaded from the football API.
-</p>
+  try{
 
-<div class="stat-row">
-<span class="stat-name">Previous Matches</span>
-<span class="stat-value">—</span>
-</div>
+    const response = await fetch(
+      WORKER_URL + "/fixtures?date=" + bdDate
+    );
 
-<div class="stat-row">
-<span class="stat-name">Team A Wins</span>
-<span class="stat-value">—</span>
-</div>
+    const data = await response.json();
 
-<div class="stat-row">
-<span class="stat-name">Draws</span>
-<span class="stat-value">—</span>
-</div>
+    if(data.errors && Object.keys(data.errors).length){
 
-<div class="stat-row">
-<span class="stat-name">Team B Wins</span>
-<span class="stat-value">—</span>
-</div>
+      throw new Error("Football API error");
 
-</div>
+    }
 
-<!-- LINEUP -->
+    const match = (data.response || []).find(
+      item => String(item.fixture.id) === String(fixtureId)
+    );
 
-<div class="section">
-<h2>👥 Lineup</h2>
+    if(!match){
 
-<p>
-Starting XI and substitutes will appear here when lineup data is available from the API.
-</p>
-</div>
+      setText("status","MATCH");
+      setText("kickoff",
+        "This match is not in today's API results."
+      );
 
-<!-- AI -->
+      return;
 
-<div class="ai-box">
+    }
 
-<div class="ai-label">PREMIUM AI ANALYSIS</div>
+    const home = match.teams.home;
+    const away = match.teams.away;
 
-<h2>🤖 Analyze This Match</h2>
+    setText("homeName",home.name);
+    setText("awayName",away.name);
 
-<p>
-Get an estimated winner, win probabilities, possible score and key factors based on available match data.
-</p>
+    setText("formHomeName",home.name);
+    setText("formAwayName",away.name);
 
-<a href="login.html" class="ai-btn">
-Login to Analyze — 10 Coins
-</a>
+    setText("h2hHome",home.name + " Wins");
+    setText("h2hAway",away.name + " Wins");
 
-<div class="note">
-AI predictions are estimates and are not guaranteed results.
-</div>
+    setLogo("homeLogo",home.logo,home.name);
+    setLogo("awayLogo",away.logo,away.name);
 
-</div>
+    setText(
+      "status",
+      match.fixture.status.short || "UPCOMING"
+    );
 
-</main>
+    setText(
+      "kickoff",
+      formatKickoff(match.fixture.date)
+    );
 
-</div>
+    setText(
+      "league",
+      match.league?.name || "—"
+    );
+
+    setText(
+      "venue",
+      match.fixture?.venue?.name || "—"
+    );
+
+    setText(
+      "matchStatus",
+      match.fixture.status.long ||
+      match.fixture.status.short ||
+      "Upcoming"
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    setText("status","ERROR");
+    setText(
+      "kickoff",
+      "Unable to load match data"
+    );
+
+  }
+
+}
+
+
+function startAnalysis(){
+
+  window.location.href =
+    "login.html?redirect=" +
+    encodeURIComponent(window.location.href);
+
+}
+
+
+loadMatch();
+
+</script>
 
 </body>
 </html>
