@@ -111,6 +111,12 @@
       background: #35df86;
       color: #03130b;
       margin-top: 4px;
+      cursor: pointer;
+    }
+
+    .auth-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
     }
 
     .divider {
@@ -144,6 +150,7 @@
       background: #0b1712;
       color: #fff;
       border: 1px solid #28503e;
+      cursor: pointer;
     }
 
     .google-icon {
@@ -183,6 +190,29 @@
       margin-top: 15px;
     }
 
+    .message {
+      display: none;
+      margin-bottom: 15px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .message.error {
+      display: block;
+      background: rgba(255, 80, 80, 0.10);
+      border: 1px solid rgba(255, 100, 100, 0.28);
+      color: #ffb0b0;
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(53, 229, 138, 0.10);
+      border: 1px solid rgba(53, 229, 138, 0.25);
+      color: #8ff0bb;
+    }
+
     @media (max-width: 360px) {
       .auth-page {
         padding: 15px;
@@ -202,6 +232,7 @@
 <body>
 
   <div class="app">
+
     <div class="auth-page">
 
       <div class="auth-box">
@@ -219,57 +250,74 @@
         <div class="auth-card">
 
           <h2>Create Account</h2>
+
           <p class="auth-subtitle">
             Create your Football AI account to access premium analysis.
           </p>
 
-          <form>
+          <div id="message" class="message"></div>
+
+          <form id="registerForm">
 
             <div class="input-group">
               <label for="name">Full Name</label>
+
               <input
                 type="text"
                 id="name"
                 name="name"
                 placeholder="Enter your name"
                 autocomplete="name"
+                required
               >
             </div>
 
             <div class="input-group">
-              <label for="emailPhone">Email or Phone</label>
+              <label for="email">Email</label>
+
               <input
-                type="text"
-                id="emailPhone"
-                name="emailPhone"
-                placeholder="Enter email or phone"
-                autocomplete="username"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
               >
             </div>
 
             <div class="input-group">
               <label for="password">Password</label>
+
               <input
                 type="password"
                 id="password"
                 name="password"
                 placeholder="Create a password"
                 autocomplete="new-password"
+                minlength="6"
+                required
               >
             </div>
 
             <div class="input-group">
               <label for="confirmPassword">Confirm Password</label>
+
               <input
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
                 placeholder="Confirm your password"
                 autocomplete="new-password"
+                minlength="6"
+                required
               >
             </div>
 
-            <button type="submit" class="auth-btn">
+            <button
+              type="submit"
+              id="registerButton"
+              class="auth-btn"
+            >
               Create Account
             </button>
 
@@ -279,12 +327,20 @@
             OR
           </div>
 
-          <button type="button" class="social-btn">
+          <button
+            type="button"
+            id="googleButton"
+            class="social-btn"
+          >
             <span class="google-icon">G</span>
             Continue with Google
           </button>
 
-          <button type="button" class="social-btn">
+          <button
+            type="button"
+            id="phoneButton"
+            class="social-btn"
+          >
             <span class="phone-icon">📱</span>
             Continue with Phone
           </button>
@@ -296,7 +352,9 @@
 
           <div class="auth-footer">
             Already have an account?
-            <a href="login.html" class="text-link">Login</a>
+            <a href="login.html" class="text-link">
+              Login
+            </a>
           </div>
 
         </div>
@@ -304,7 +362,291 @@
       </div>
 
     </div>
+
   </div>
+
+
+  <!-- Supabase JavaScript v2 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://ymuigmyxjpjmwmqlvuef.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_eTmE9vVtTy_SLU9urgHTSg_nlJhep57";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    const registerForm =
+      document.getElementById("registerForm");
+
+    const registerButton =
+      document.getElementById("registerButton");
+
+    const messageBox =
+      document.getElementById("message");
+
+
+    function showMessage(text, type) {
+
+      messageBox.textContent = text;
+
+      messageBox.className =
+        "message " + type;
+    }
+
+
+    registerForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+
+        const name =
+          document.getElementById("name").value.trim();
+
+        const email =
+          document.getElementById("email").value.trim();
+
+        const password =
+          document.getElementById("password").value;
+
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+
+
+        if (!name || !email || !password || !confirmPassword) {
+
+          showMessage(
+            "Please fill in all fields.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (password.length < 6) {
+
+          showMessage(
+            "Password must be at least 6 characters.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (password !== confirmPassword) {
+
+          showMessage(
+            "Passwords do not match.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        registerButton.disabled = true;
+
+        registerButton.textContent =
+          "Creating account...";
+
+        messageBox.className =
+          "message";
+
+
+        try {
+
+          const { data, error } =
+            await supabaseClient.auth.signUp({
+
+              email: email,
+
+              password: password,
+
+              options: {
+
+                data: {
+                  full_name: name
+                }
+
+              }
+
+            });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          /*
+            If email confirmation is enabled,
+            Supabase may require the user
+            to confirm their email first.
+          */
+
+          if (
+            data.user &&
+            !data.session
+          ) {
+
+            showMessage(
+              "Account created. Please check your email to confirm your account.",
+              "success"
+            );
+
+            return;
+          }
+
+
+          if (data.session) {
+
+            showMessage(
+              "Account created successfully. Redirecting...",
+              "success"
+            );
+
+
+            setTimeout(function() {
+
+              window.location.href =
+                "index.html";
+
+            }, 700);
+
+            return;
+          }
+
+
+          showMessage(
+            "Account created. Please check your email.",
+            "success"
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Registration error:",
+            error
+          );
+
+
+          let errorMessage =
+            "Registration failed. Please try again.";
+
+
+          if (error && error.message) {
+
+            const msg =
+              error.message.toLowerCase();
+
+
+            if (
+              msg.includes("already registered")
+            ) {
+
+              errorMessage =
+                "This email is already registered.";
+
+            }
+
+            else if (
+              msg.includes("password")
+            ) {
+
+              errorMessage =
+                error.message;
+
+            }
+
+            else if (
+              msg.includes("rate limit")
+            ) {
+
+              errorMessage =
+                "Too many attempts. Please wait and try again.";
+
+            }
+
+            else {
+
+              errorMessage =
+                error.message;
+
+            }
+
+          }
+
+
+          showMessage(
+            errorMessage,
+            "error"
+          );
+
+
+        } finally {
+
+          registerButton.disabled = false;
+
+          registerButton.textContent =
+            "Create Account";
+
+        }
+
+      }
+    );
+
+
+    /*
+      Google and Phone authentication
+      will be configured separately.
+      No fake login is used here.
+    */
+
+    document
+      .getElementById("googleButton")
+      .addEventListener(
+        "click",
+        function() {
+
+          showMessage(
+            "Google Login will be enabled after Google provider setup.",
+            "error"
+          );
+
+        }
+      );
+
+
+    document
+      .getElementById("phoneButton")
+      .addEventListener(
+        "click",
+        function() {
+
+          showMessage(
+            "Phone Login will be enabled after phone authentication setup.",
+            "error"
+          );
+
+        }
+      );
+
+  </script>
 
 </body>
 </html>
