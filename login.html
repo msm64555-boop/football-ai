@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Football AI</title>
+
   <link rel="stylesheet" href="style.css">
 
   <style>
@@ -113,11 +114,17 @@
       font-size: 15px;
       font-weight: 700;
       margin-top: 4px;
+      cursor: pointer;
     }
 
     .login-btn {
       background: #35df86;
       color: #03130b;
+    }
+
+    .login-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
     }
 
     .divider {
@@ -151,6 +158,7 @@
       background: #0b1712;
       color: #fff;
       border: 1px solid #28503e;
+      cursor: pointer;
     }
 
     .google-icon {
@@ -183,6 +191,29 @@
       color: #6f8479;
       font-size: 11px;
       line-height: 1.5;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 15px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .message.error {
+      display: block;
+      background: rgba(255, 80, 80, 0.10);
+      border: 1px solid rgba(255, 100, 100, 0.28);
+      color: #ffb0b0;
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(53, 229, 138, 0.10);
+      border: 1px solid rgba(53, 229, 138, 0.25);
+      color: #8ff0bb;
     }
 
     @media (max-width: 360px) {
@@ -219,7 +250,9 @@
           <h2>Welcome Back</h2>
           <p class="auth-subtitle">Login to continue to Football AI.</p>
 
-          <form>
+          <div id="message" class="message"></div>
+
+          <form id="loginForm">
 
             <div class="input-group">
               <label for="emailPhone">Email or Phone</label>
@@ -229,6 +262,7 @@
                 name="emailPhone"
                 placeholder="Enter email or phone"
                 autocomplete="username"
+                required
               >
             </div>
 
@@ -240,6 +274,7 @@
                 name="password"
                 placeholder="Enter password"
                 autocomplete="current-password"
+                required
               >
             </div>
 
@@ -249,7 +284,11 @@
               </a>
             </div>
 
-            <button type="submit" class="auth-btn login-btn">
+            <button
+              type="submit"
+              id="loginButton"
+              class="auth-btn login-btn"
+            >
               Login
             </button>
 
@@ -259,12 +298,20 @@
             OR
           </div>
 
-          <button type="button" class="social-btn">
+          <button
+            type="button"
+            id="googleButton"
+            class="social-btn"
+          >
             <span class="google-icon">G</span>
             Continue with Google
           </button>
 
-          <button type="button" class="social-btn">
+          <button
+            type="button"
+            id="phoneButton"
+            class="social-btn"
+          >
             <span class="phone-icon">📱</span>
             Continue with Phone
           </button>
@@ -275,7 +322,7 @@
           </div>
 
           <div class="security-note">
-            Secure authentication will be connected to the backend.
+            Secure authentication is powered by Supabase.
           </div>
 
         </div>
@@ -284,6 +331,273 @@
 
     </div>
   </div>
+
+
+  <!-- Supabase JavaScript v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    /*
+      FOOTBALL AI - SUPABASE CONFIG
+      --------------------------------
+      Supabase Project URL:
+      https://ymuigmyxjpjmwmqlvuef.supabase.co
+
+      IMPORTANT:
+      Put your Supabase PUBLISHABLE key below.
+      Do NOT put a secret/service_role key here.
+    */
+
+    const SUPABASE_URL =
+      "https://ymuigmyxjpjmwmqlvuef.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_eTmE9vVtTy_SLU9urgHTSg_nlJhep57";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const messageBox = document.getElementById("message");
+
+    const googleButton = document.getElementById("googleButton");
+    const phoneButton = document.getElementById("phoneButton");
+
+
+    function showMessage(text, type) {
+      messageBox.textContent = text;
+      messageBox.className = "message " + type;
+    }
+
+
+    function getRedirectUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get("redirect");
+
+      if (redirect) {
+        return redirect;
+      }
+
+      return "index.html";
+    }
+
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+
+    loginForm.addEventListener("submit", async function (event) {
+
+      event.preventDefault();
+
+      const emailPhone =
+        document.getElementById("emailPhone").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+
+      if (!emailPhone || !password) {
+        showMessage(
+          "Please enter your email/phone and password.",
+          "error"
+        );
+        return;
+      }
+
+
+      loginButton.disabled = true;
+      loginButton.textContent = "Logging in...";
+
+      messageBox.className = "message";
+
+
+      try {
+
+        let authData = null;
+
+
+        if (isValidEmail(emailPhone)) {
+
+          const result =
+            await supabaseClient.auth.signInWithPassword({
+              email: emailPhone,
+              password: password
+            });
+
+          authData = result;
+
+        } else {
+
+          const result =
+            await supabaseClient.auth.signInWithPassword({
+              phone: emailPhone,
+              password: password
+            });
+
+          authData = result;
+        }
+
+
+        if (authData.error) {
+          throw authData.error;
+        }
+
+
+        if (!authData.data || !authData.data.session) {
+          throw new Error(
+            "Login completed, but no active session was returned."
+          );
+        }
+
+
+        showMessage(
+          "Login successful. Redirecting...",
+          "success"
+        );
+
+
+        setTimeout(function () {
+
+          const redirectUrl = getRedirectUrl();
+
+          window.location.href = redirectUrl;
+
+        }, 500);
+
+
+      } catch (error) {
+
+        console.error("Login error:", error);
+
+        let errorMessage =
+          "Login failed. Please check your details and try again.";
+
+
+        if (error && error.message) {
+
+          const msg =
+            error.message.toLowerCase();
+
+
+          if (
+            msg.includes("invalid login credentials")
+          ) {
+            errorMessage =
+              "Invalid email/phone or password.";
+          }
+
+          else if (
+            msg.includes("email not confirmed")
+          ) {
+            errorMessage =
+              "Please confirm your email before logging in.";
+          }
+
+          else if (
+            msg.includes("phone not confirmed")
+          ) {
+            errorMessage =
+              "Please verify your phone number first.";
+          }
+
+          else if (
+            msg.includes("rate limit")
+          ) {
+            errorMessage =
+              "Too many attempts. Please wait a little and try again.";
+          }
+
+          else {
+            errorMessage = error.message;
+          }
+        }
+
+
+        showMessage(errorMessage, "error");
+
+
+      } finally {
+
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
+
+      }
+
+    });
+
+
+    /*
+      Google and Phone buttons are intentionally not fake.
+      They will be connected after their Supabase providers/settings
+      are configured.
+    */
+
+    googleButton.addEventListener("click", function () {
+
+      showMessage(
+        "Google Login will be enabled after Google provider setup.",
+        "error"
+      );
+
+    });
+
+
+    phoneButton.addEventListener("click", function () {
+
+      showMessage(
+        "Phone Login will be enabled after phone authentication setup.",
+        "error"
+      );
+
+    });
+
+
+    /*
+      If the user is already logged in,
+      don't show the login page again.
+    */
+
+    async function checkExistingSession() {
+
+      try {
+
+        const { data, error } =
+          await supabaseClient.auth.getSession();
+
+        if (error) {
+          console.error("Session check error:", error);
+          return;
+        }
+
+        if (data && data.session) {
+
+          window.location.href =
+            getRedirectUrl();
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Unexpected session error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    checkExistingSession();
+
+  </script>
 
 </body>
 </html>
