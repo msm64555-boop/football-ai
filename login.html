@@ -1,603 +1,1444 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Football AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="style.css">
+<title>Football AI</title>
 
-  <style>
-    .auth-page {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+<link rel="stylesheet" href="style.css">
 
-    .auth-box {
-      width: 100%;
-      max-width: 420px;
-    }
+<style>
 
-    .auth-logo {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+.home-header{
+  padding:18px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #1b382b;
+}
 
-    .auth-logo .logo-icon {
-      font-size: 42px;
-      margin-bottom: 8px;
-    }
+.home-logo{
+  color:#35e58a;
+  font-size:21px;
+  font-weight:800;
+}
 
-    .auth-logo h1 {
-      color: #35e58a;
-      font-size: 28px;
-      margin: 0;
-    }
+.login-link{
+  color:#fff;
+  text-decoration:none;
+  background:#17382b;
+  border:1px solid #28503e;
+  padding:9px 13px;
+  border-radius:11px;
+  font-size:13px;
+  font-weight:700;
+}
 
-    .auth-logo p {
-      color: #91a59c;
-      margin-top: 8px;
-      font-size: 14px;
-    }
+.hero{
+  padding:25px 0 18px;
+}
 
-    .auth-card {
-      background: #10231b;
-      border: 1px solid #1d3b2f;
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
-    }
+.hero h1{
+  font-size:30px;
+  margin:9px 0;
+}
 
-    .auth-card h2 {
-      margin-bottom: 7px;
-      font-size: 23px;
-    }
+.tabs{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  margin:10px 0 18px;
+  padding-bottom:3px;
+}
 
-    .auth-subtitle {
-      color: #91a59c;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
+.tab{
+  white-space:nowrap;
+  border:1px solid #28503e;
+  background:#10231b;
+  color:#91a59c;
+  padding:11px 15px;
+  border-radius:12px;
+  font-weight:700;
+}
 
-    .input-group {
-      margin-bottom: 15px;
-    }
+.tab.active{
+  background:#35df86;
+  color:#03130b;
+  border-color:#35df86;
+}
 
-    .input-group label {
-      display: block;
-      margin-bottom: 7px;
-      color: #d8e7df;
-      font-size: 13px;
-      font-weight: 600;
-    }
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:22px 0 12px;
+}
 
-    .input-group input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #28503e;
-      border-radius: 12px;
-      background: #0b1712;
-      color: #fff;
-      outline: none;
-      font-size: 15px;
-    }
+.section-title h2{
+  font-size:18px;
+}
 
-    .input-group input:focus {
-      border-color: #35e58a;
-      box-shadow: 0 0 0 2px rgba(53, 229, 138, 0.08);
-    }
+.section-title span{
+  color:#35e58a;
+  font-size:12px;
+}
 
-    .forgot-row {
-      text-align: right;
-      margin-top: -4px;
-      margin-bottom: 14px;
-    }
+.loading{
+  text-align:center;
+  padding:35px 15px;
+  color:#91a59c;
+  line-height:1.6;
+}
 
-    .text-link {
-      color: #58eca0;
-      text-decoration: none;
-      font-size: 13px;
-    }
+.error-box{
+  background:#2b1717;
+  border:1px solid #713939;
+  color:#ffaaaa;
+  border-radius:15px;
+  padding:15px;
+  font-size:12px;
+  line-height:1.5;
+}
 
-    .text-link:hover {
-      text-decoration: underline;
-    }
+.empty-box{
+  background:#10231b;
+  border:1px solid #1d3b2f;
+  border-radius:17px;
+  padding:25px 17px;
+  text-align:center;
+  color:#91a59c;
+  font-size:12px;
+  line-height:1.6;
+}
 
-    .auth-btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 700;
-      margin-top: 4px;
-      cursor: pointer;
-    }
+/* DAY GROUP */
 
-    .login-btn {
-      background: #35df86;
-      color: #03130b;
-    }
+.day-group{
+  margin-bottom:24px;
+}
 
-    .login-btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
+.day-title{
+  color:#35e58a;
+  font-size:16px;
+  font-weight:800;
+  margin-bottom:10px;
+}
 
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 20px 0;
-      color: #6f8479;
-      font-size: 12px;
-    }
+/* LEAGUE */
 
-    .divider::before,
-    .divider::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: #234235;
-    }
+.league{
+  margin-bottom:15px;
+}
 
-    .social-btn {
-      width: 100%;
-      padding: 13px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: #0b1712;
-      color: #fff;
-      border: 1px solid #28503e;
-      cursor: pointer;
-    }
+.league-name{
+  color:#6af0a5;
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:8px;
+  padding-left:3px;
+}
 
-    .google-icon {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #fff;
-      color: #4285f4;
-      font-size: 13px;
-      font-weight: 800;
-    }
+/* MATCH CARD */
 
-    .phone-icon {
-      font-size: 18px;
-    }
+.match-card{
+  display:block;
+  text-decoration:none;
+  color:#fff;
+  background:#10231b;
+  border:1px solid #1d3b2f;
+  border-radius:17px;
+  padding:15px;
+  margin-bottom:9px;
+  transition:.2s ease;
+}
 
-    .auth-footer {
-      text-align: center;
-      margin-top: 20px;
-      color: #91a59c;
-      font-size: 13px;
-    }
+.match-card:active{
+  transform:scale(.98);
+}
 
-    .security-note {
-      margin-top: 16px;
-      text-align: center;
-      color: #6f8479;
-      font-size: 11px;
-      line-height: 1.5;
-    }
+.match-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
 
-    .message {
-      display: none;
-      margin-bottom: 15px;
-      padding: 11px 12px;
-      border-radius: 10px;
-      font-size: 13px;
-      line-height: 1.4;
-    }
+.match-time{
+  color:#91a59c;
+  font-size:11px;
+}
 
-    .message.error {
-      display: block;
-      background: rgba(255, 80, 80, 0.10);
-      border: 1px solid rgba(255, 100, 100, 0.28);
-      color: #ffb0b0;
-    }
+.status{
+  background:#17382b;
+  color:#6af0a5;
+  padding:4px 8px;
+  border-radius:15px;
+  font-size:9px;
+  font-weight:800;
+}
 
-    .message.success {
-      display: block;
-      background: rgba(53, 229, 138, 0.10);
-      border: 1px solid rgba(53, 229, 138, 0.25);
-      color: #8ff0bb;
-    }
+.status.live{
+  background:#4a2020;
+  color:#ff8585;
+}
 
-    @media (max-width: 360px) {
-      .auth-page {
-        padding: 15px;
-      }
+.status.finished{
+  background:#252c29;
+  color:#aebbb5;
+}
 
-      .auth-card {
-        padding: 18px;
-      }
+.teams{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
 
-      .auth-logo h1 {
-        font-size: 25px;
-      }
-    }
-  </style>
+.team{
+  width:40%;
+  text-align:center;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.4;
+}
+
+.team-logo{
+  width:38px;
+  height:38px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 6px;
+}
+
+.vs{
+  color:#35e58a;
+  font-size:11px;
+  font-weight:900;
+}
+
+.view-match{
+  text-align:center;
+  margin-top:11px;
+  padding-top:9px;
+  border-top:1px solid #1d3b2f;
+  color:#35e58a;
+  font-size:10px;
+  font-weight:800;
+}
+
+/* AI CARD */
+
+.feature-card{
+  background:linear-gradient(145deg,#102a20,#0d1d16);
+  border:1px solid #1d4936;
+  border-radius:18px;
+  padding:18px;
+  margin-top:20px;
+}
+
+.feature-card h2{
+  margin:10px 0 8px;
+  font-size:19px;
+}
+
+.feature-card p{
+  color:#91a59c;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.feature-btn{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  margin-top:14px;
+  padding:13px;
+  border-radius:12px;
+  background:#35df86;
+  color:#03130b;
+  font-weight:800;
+}
+
+/* INFO */
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:14px;
+}
+
+.info-card{
+  background:#10231b;
+  border:1px solid #1d3b2f;
+  border-radius:15px;
+  padding:16px;
+}
+
+.info-card .icon{
+  font-size:23px;
+}
+
+.info-card h3{
+  margin:8px 0 5px;
+  font-size:14px;
+}
+
+.info-card p{
+  color:#91a59c;
+  font-size:11px;
+  line-height:1.4;
+}
+
+.bottom-space{
+  height:25px;
+}
+
+@media(max-width:360px){
+
+  .team{
+    font-size:11px;
+  }
+
+  .team-logo{
+    width:32px;
+    height:32px;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
 
-  <div class="app">
-    <div class="auth-page">
+<div class="app">
 
-      <div class="auth-box">
+<header class="home-header">
 
-        <div class="auth-logo">
-          <div class="logo-icon">⚽</div>
-          <h1>Football AI</h1>
-          <p>Smarter Analysis. Better Decisions.</p>
+  <div class="home-logo">
+    ⚽ Football AI
+  </div>
+
+  <a
+    href="login.html"
+    class="login-link"
+    id="authLink"
+  >
+    Login
+  </a>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+  <span class="tag">
+    AI FOOTBALL ANALYSIS
+  </span>
+
+  <h1>
+    Understand the game.
+  </h1>
+
+  <p class="muted">
+    Real football data, smart analysis and estimated predictions.
+  </p>
+
+</section>
+
+
+<!-- MAIN TABS -->
+
+<div class="tabs">
+
+  <button
+    class="tab active"
+    id="allTab"
+    type="button">
+    All Football
+  </button>
+
+  <button
+    class="tab"
+    id="liveTab"
+    type="button">
+    Live Today
+  </button>
+
+</div>
+
+
+<!-- MATCH TITLE -->
+
+<div class="section-title">
+
+  <h2 id="matchTitle">
+    Today's Matches
+  </h2>
+
+  <span>
+    REAL DATA
+  </span>
+
+</div>
+
+
+<!-- MATCHES -->
+
+<div id="matchesContainer">
+
+  <div class="loading">
+    ⚽ Loading real football matches...
+  </div>
+
+</div>
+
+
+<!-- AI FEATURE -->
+
+<div class="feature-card">
+
+  <span class="tag">
+    PREMIUM AI
+  </span>
+
+  <h2>
+    🤖 AI Match Analysis
+  </h2>
+
+  <p>
+    Get estimated winner, win probabilities, possible score
+    and important match factors.
+  </p>
+
+  <a
+    href="login.html"
+    class="feature-btn">
+    Login to Analyze
+  </a>
+
+</div>
+
+
+<!-- FEATURES -->
+
+<div class="section-title">
+
+  <h2>
+    Football AI
+  </h2>
+
+</div>
+
+
+<div class="info-grid">
+
+  <div class="info-card">
+
+    <div class="icon">📊</div>
+
+    <h3>
+      Team Stats
+    </h3>
+
+    <p>
+      Form, goals and defensive statistics.
+    </p>
+
+  </div>
+
+
+  <div class="info-card">
+
+    <div class="icon">🤖</div>
+
+    <h3>
+      AI Analysis
+    </h3>
+
+    <p>
+      Data-based estimated match analysis.
+    </p>
+
+  </div>
+
+
+  <div class="info-card">
+
+    <div class="icon">🎯</div>
+
+    <h3>
+      Prediction
+    </h3>
+
+    <p>
+      Estimated outcome and possible scores.
+    </p>
+
+  </div>
+
+
+  <div class="info-card">
+
+    <div class="icon">🪙</div>
+
+    <h3>
+      Coins
+    </h3>
+
+    <p>
+      Use coins for premium analysis.
+    </p>
+
+  </div>
+
+</div>
+
+
+<div class="bottom-space"></div>
+
+</main>
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+  "https://ymuigmyxjpjmwmqlvuef.supabase.co";
+
+/*sb_publishable_eTmE9vVtTy_SLU9urgHTSg_nlJhep57*/
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_eTmE9vVtTy_SLU9urgHTSg_nlJhep57";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================
+   LOGIN / PROFILE
+========================= */
+
+async function updateAuthLink(){
+
+  const authLink =
+    document.getElementById("authLink");
+
+  if(!authLink){
+    return;
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if(error){
+
+      console.error(
+        "Session error:",
+        error
+      );
+
+      return;
+
+    }
+
+
+    if(
+      data &&
+      data.session
+    ){
+
+      authLink.textContent =
+        "Profile";
+
+      authLink.href =
+        "profile.html";
+
+    }
+    else{
+
+      authLink.textContent =
+        "Login";
+
+      authLink.href =
+        "login.html";
+
+    }
+
+
+  }
+  catch(error){
+
+    console.error(
+      "Auth check error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* AUTH STATE CHANGE */
+
+supabaseClient.auth.onAuthStateChange(
+  function(){
+
+    updateAuthLink();
+
+  }
+);
+
+
+/* FIRST CHECK */
+
+updateAuthLink();
+
+
+/* =========================
+   FOOTBALL API
+========================= */
+
+const WORKER_URL =
+"https://wispy-firefly-43e6.facebookhack10203.workers.dev";
+
+
+let todayMatches = [];
+let tomorrowMatches = [];
+
+let currentMode = "all";
+
+
+/* =========================
+   BANGLADESH DATE
+========================= */
+
+function getBDDate(offset = 0){
+
+  const now = new Date();
+
+  const bdTime = new Date(
+    now.toLocaleString("en-US", {
+      timeZone:"Asia/Dhaka"
+    })
+  );
+
+  bdTime.setDate(
+    bdTime.getDate() + offset
+  );
+
+  const year =
+    bdTime.getFullYear();
+
+  const month =
+    String(
+      bdTime.getMonth() + 1
+    ).padStart(2,"0");
+
+  const day =
+    String(
+      bdTime.getDate()
+    ).padStart(2,"0");
+
+  return `${year}-${month}-${day}`;
+
+}
+
+
+/* =========================
+   FORMAT TIME
+========================= */
+
+function formatTime(dateString){
+
+  if(!dateString){
+    return "--:--";
+  }
+
+  const date =
+    new Date(dateString);
+
+  return date.toLocaleTimeString(
+    "en-BD",
+    {
+      timeZone:"Asia/Dhaka",
+      hour:"2-digit",
+      minute:"2-digit",
+      hour12:true
+    }
+  );
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function getStatus(match){
+
+  const short =
+    match?.fixture?.status?.short || "";
+
+  if([
+    "1H",
+    "2H",
+    "ET",
+    "P",
+    "LIVE",
+    "HT"
+  ].includes(short)){
+
+    return "LIVE";
+
+  }
+
+
+  if([
+    "FT",
+    "AET",
+    "PEN"
+  ].includes(short)){
+
+    return "FT";
+
+  }
+
+
+  return "NS";
+
+}
+
+
+/* =========================
+   STATUS TEXT
+========================= */
+
+function getStatusText(match){
+
+  const status =
+    getStatus(match);
+
+  if(status === "LIVE"){
+    return "LIVE";
+  }
+
+  if(status === "FT"){
+    return "FINISHED";
+  }
+
+  return "UPCOMING";
+
+}
+
+
+/* =========================
+   LOAD ONE DATE
+========================= */
+
+async function fetchDate(date){
+
+  const response =
+    await fetch(
+      `${WORKER_URL}/fixtures?date=${date}`
+    );
+
+  const data =
+    await response.json();
+
+
+  if(!response.ok){
+
+    throw new Error(
+      data?.errors?.rateLimit ||
+      "Unable to load football matches."
+    );
+
+  }
+
+
+  if(
+    data?.errors &&
+    Object.keys(data.errors).length
+  ){
+
+    throw new Error(
+      data?.errors?.rateLimit ||
+      "Football API returned an error."
+    );
+
+  }
+
+
+  return Array.isArray(data.response)
+    ? data.response
+    : [];
+
+}
+
+
+/* =========================
+   LOAD HOME DATA
+========================= */
+
+async function loadHomeMatches(){
+
+  const container =
+    document.getElementById(
+      "matchesContainer"
+    );
+
+
+  container.innerHTML = `
+    <div class="loading">
+      ⚽ Loading real football matches...
+    </div>
+  `;
+
+
+  try{
+
+    const today =
+      getBDDate(0);
+
+    const tomorrow =
+      getBDDate(1);
+
+
+    /*
+      Only two API requests:
+      Today + Tomorrow
+    */
+
+    const results =
+      await Promise.all([
+        fetchDate(today),
+        fetchDate(tomorrow)
+      ]);
+
+
+    todayMatches =
+      results[0];
+
+    tomorrowMatches =
+      results[1];
+
+
+    renderHome();
+
+  }catch(error){
+
+    showError(
+      error?.message ||
+      "Could not connect to the football server."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   RENDER HOME
+========================= */
+
+function renderHome(){
+
+  const container =
+    document.getElementById(
+      "matchesContainer"
+    );
+
+
+  if(currentMode === "live"){
+
+    renderLiveMatches();
+
+    return;
+
+  }
+
+
+  renderAllMatches();
+
+}
+
+
+/* =========================
+   ALL FOOTBALL
+========================= */
+
+function renderAllMatches(){
+
+  const container =
+    document.getElementById(
+      "matchesContainer"
+    );
+
+
+  const upcomingToday =
+    todayMatches.filter(
+      match =>
+        getStatus(match) === "NS"
+    );
+
+
+  const liveToday =
+    todayMatches.filter(
+      match =>
+        getStatus(match) === "LIVE"
+    );
+
+
+  /*
+    Today:
+    LIVE first
+    then upcoming
+  */
+
+  const today =
+    [
+      ...liveToday,
+      ...upcomingToday
+    ];
+
+
+  let html = "";
+
+
+  if(today.length){
+
+    html += `
+      <div class="day-group">
+
+        <div class="day-title">
+          📅 Today
         </div>
 
-        <div class="auth-card">
+        ${renderLeagueGroups(today)}
 
-          <h2>Welcome Back</h2>
-          <p class="auth-subtitle">Login to continue to Football AI.</p>
+      </div>
+    `;
 
-          <div id="message" class="message"></div>
+  }
 
-          <form id="loginForm">
 
-            <div class="input-group">
-              <label for="emailPhone">Email or Phone</label>
-              <input
-                type="text"
-                id="emailPhone"
-                name="emailPhone"
-                placeholder="Enter email or phone"
-                autocomplete="username"
-                required
+  /*
+    Tomorrow
+  */
+
+  if(tomorrowMatches.length){
+
+    html += `
+      <div class="day-group">
+
+        <div class="day-title">
+          📅 Tomorrow
+        </div>
+
+        ${renderLeagueGroups(
+          tomorrowMatches
+        )}
+
+      </div>
+    `;
+
+  }
+
+
+  if(!html){
+
+    html = `
+      <div class="empty-box">
+        No upcoming real football matches
+        were found.
+      </div>
+    `;
+
+  }
+
+
+  container.innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   LIVE TODAY
+========================= */
+
+function renderLiveMatches(){
+
+  const container =
+    document.getElementById(
+      "matchesContainer"
+    );
+
+
+  const live =
+    todayMatches.filter(
+      match =>
+        getStatus(match) === "LIVE"
+    );
+
+
+  if(!live.length){
+
+    container.innerHTML = `
+      <div class="empty-box">
+
+        🔴 No matches are live right now.
+
+        <br><br>
+
+        Live matches will appear here
+        automatically while they are running.
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    renderLeagueGroups(live);
+
+}
+
+
+/* =========================
+   GROUP BY LEAGUE
+========================= */
+
+function renderLeagueGroups(matches){
+
+  const grouped = {};
+
+
+  /*
+    Sort:
+    live first
+    then kickoff time
+  */
+
+  matches.sort(
+    (a,b) => {
+
+      const statusA =
+        getStatus(a);
+
+      const statusB =
+        getStatus(b);
+
+
+      if(
+        statusA === "LIVE" &&
+        statusB !== "LIVE"
+      ){
+        return -1;
+      }
+
+
+      if(
+        statusA !== "LIVE" &&
+        statusB === "LIVE"
+      ){
+        return 1;
+      }
+
+
+      return (
+        new Date(
+          a?.fixture?.date || 0
+        ) -
+        new Date(
+          b?.fixture?.date || 0
+        )
+      );
+
+    }
+  );
+
+
+  matches.forEach(match => {
+
+    const league =
+      match?.league?.name ||
+      "Football";
+
+
+    if(!grouped[league]){
+
+      grouped[league] = [];
+
+    }
+
+
+    grouped[league].push(match);
+
+  });
+
+
+  let html = "";
+
+
+  Object.keys(grouped)
+  .sort()
+  .forEach(leagueName => {
+
+
+    html += `
+      <div class="league">
+
+        <div class="league-name">
+          ${escapeHTML(leagueName)}
+        </div>
+    `;
+
+
+    grouped[leagueName]
+    .forEach(match => {
+
+      html +=
+        renderMatchCard(match);
+
+    });
+
+
+    html += `
+      </div>
+    `;
+
+  });
+
+
+  return html;
+
+}
+
+
+/* =========================
+   MATCH CARD
+========================= */
+
+function renderMatchCard(match){
+
+  /*
+    IMPORTANT:
+    Uses the REAL fixture.id
+    returned by API-Football.
+  */
+
+  const fixtureId =
+    match?.fixture?.id;
+
+
+  if(!fixtureId){
+
+    return "";
+
+  }
+
+
+  const home =
+    match?.teams?.home;
+
+
+  const away =
+    match?.teams?.away;
+
+
+  const homeName =
+    home?.name ||
+    "Unknown";
+
+
+  const awayName =
+    away?.name ||
+    "Unknown";
+
+
+  const homeLogo =
+    home?.logo ||
+    "";
+
+
+  const awayLogo =
+    away?.logo ||
+    "";
+
+
+  const status =
+    getStatus(match);
+
+
+  const statusText =
+    getStatusText(match);
+
+
+  const time =
+    formatTime(
+      match?.fixture?.date
+    );
+
+
+  let statusClass = "";
+
+
+  if(status === "LIVE"){
+
+    statusClass = "live";
+
+  }
+  else if(status === "FT"){
+
+    statusClass = "finished";
+
+  }
+
+
+  return `
+
+    <a
+      class="match-card"
+      href="match-details.html?id=${encodeURIComponent(fixtureId)}"
+    >
+
+      <div class="match-top">
+
+        <span class="match-time">
+          ${time}
+        </span>
+
+        <span class="status ${statusClass}">
+          ${statusText}
+        </span>
+
+      </div>
+
+
+      <div class="teams">
+
+        <div class="team">
+
+          ${
+            homeLogo
+            ? `
+              <img
+                class="team-logo"
+                src="${escapeHTML(homeLogo)}"
+                alt="${escapeHTML(homeName)}"
+                loading="lazy"
               >
-            </div>
+            `
+            : ""
+          }
 
-            <div class="input-group">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter password"
-                autocomplete="current-password"
-                required
+          ${escapeHTML(homeName)}
+
+        </div>
+
+
+        <div class="vs">
+          VS
+        </div>
+
+
+        <div class="team">
+
+          ${
+            awayLogo
+            ? `
+              <img
+                class="team-logo"
+                src="${escapeHTML(awayLogo)}"
+                alt="${escapeHTML(awayName)}"
+                loading="lazy"
               >
-            </div>
+            `
+            : ""
+          }
 
-            <div class="forgot-row">
-              <a href="forgot-password.html" class="text-link">
-                Forgot Password?
-              </a>
-            </div>
-
-            <button
-              type="submit"
-              id="loginButton"
-              class="auth-btn login-btn"
-            >
-              Login
-            </button>
-
-          </form>
-
-          <div class="divider">
-            OR
-          </div>
-
-          <button
-            type="button"
-            id="googleButton"
-            class="social-btn"
-          >
-            <span class="google-icon">G</span>
-            Continue with Google
-          </button>
-
-          <button
-            type="button"
-            id="phoneButton"
-            class="social-btn"
-          >
-            <span class="phone-icon">📱</span>
-            Continue with Phone
-          </button>
-
-          <div class="auth-footer">
-            Don't have an account?
-            <a href="register.html" class="text-link">Create Account</a>
-          </div>
-
-          <div class="security-note">
-            Secure authentication is powered by Supabase.
-          </div>
+          ${escapeHTML(awayName)}
 
         </div>
 
       </div>
 
+
+      <div class="view-match">
+        View Match →
+      </div>
+
+    </a>
+
+  `;
+
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(message){
+
+  document.getElementById(
+    "matchesContainer"
+  ).innerHTML = `
+
+    <div class="error-box">
+
+      ⚠️ ${escapeHTML(message)}
+
+      <br><br>
+
+      Please try again later.
+
     </div>
-  </div>
 
+  `;
 
-  <!-- Supabase JavaScript v2 -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+}
 
-  <script>
-    /*
-      FOOTBALL AI - SUPABASE CONFIG
-      --------------------------------
-      Supabase Project URL:
-      https://ymuigmyxjpjmwmqlvuef.supabase.co
 
-      IMPORTANT:
-      Put your Supabase PUBLISHABLE key below.
-      Do NOT put a secret/service_role key here.
-    */
+/* =========================
+   SAFE HTML
+========================= */
 
-    const SUPABASE_URL =
-      "https://ymuigmyxjpjmwmqlvuef.supabase.co";
+function escapeHTML(value){
 
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_eTmE9vVtTy_SLU9urgHTSg_nlJhep57";
+  return String(value)
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
 
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
 
-    const loginForm = document.getElementById("loginForm");
-    const loginButton = document.getElementById("loginButton");
-    const messageBox = document.getElementById("message");
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
 
-    const googleButton = document.getElementById("googleButton");
-    const phoneButton = document.getElementById("phoneButton");
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
 
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
-    function showMessage(text, type) {
-      messageBox.textContent = text;
-      messageBox.className = "message " + type;
-    }
+}
 
 
-    function getRedirectUrl() {
-      const params = new URLSearchParams(window.location.search);
-      const redirect = params.get("redirect");
+/* =========================
+   ALL FOOTBALL BUTTON
+========================= */
 
-      if (redirect) {
-        return redirect;
-      }
+document
+.getElementById("allTab")
+.addEventListener(
+  "click",
+  () => {
 
-      return "index.html";
-    }
+    currentMode =
+      "all";
 
 
-    function isValidEmail(value) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-    }
+    document
+    .getElementById("allTab")
+    .classList.add("active");
 
 
-    loginForm.addEventListener("submit", async function (event) {
+    document
+    .getElementById("liveTab")
+    .classList.remove("active");
 
-      event.preventDefault();
 
-      const emailPhone =
-        document.getElementById("emailPhone").value.trim();
+    document
+    .getElementById("matchTitle")
+    .textContent =
+      "Today's Matches";
 
-      const password =
-        document.getElementById("password").value;
 
+    renderHome();
 
-      if (!emailPhone || !password) {
-        showMessage(
-          "Please enter your email/phone and password.",
-          "error"
-        );
-        return;
-      }
+  }
+);
 
 
-      loginButton.disabled = true;
-      loginButton.textContent = "Logging in...";
+/* =========================
+   LIVE BUTTON
+========================= */
 
-      messageBox.className = "message";
+document
+.getElementById("liveTab")
+.addEventListener(
+  "click",
+  () => {
 
+    currentMode =
+      "live";
 
-      try {
 
-        let authData = null;
+    document
+    .getElementById("liveTab")
+    .classList.add("active");
 
 
-        if (isValidEmail(emailPhone)) {
+    document
+    .getElementById("allTab")
+    .classList.remove("active");
 
-          const result =
-            await supabaseClient.auth.signInWithPassword({
-              email: emailPhone,
-              password: password
-            });
 
-          authData = result;
+    document
+    .getElementById("matchTitle")
+    .textContent =
+      "Live Today";
 
-        } else {
 
-          const result =
-            await supabaseClient.auth.signInWithPassword({
-              phone: emailPhone,
-              password: password
-            });
+    renderHome();
 
-          authData = result;
-        }
+  }
+);
 
 
-        if (authData.error) {
-          throw authData.error;
-        }
+/* =========================
+   START
+========================= */
 
+loadHomeMatches();
 
-        if (!authData.data || !authData.data.session) {
-          throw new Error(
-            "Login completed, but no active session was returned."
-          );
-        }
-
-
-        showMessage(
-          "Login successful. Redirecting...",
-          "success"
-        );
-
-
-        setTimeout(function () {
-
-          const redirectUrl = getRedirectUrl();
-
-          window.location.href = redirectUrl;
-
-        }, 500);
-
-
-      } catch (error) {
-
-        console.error("Login error:", error);
-
-        let errorMessage =
-          "Login failed. Please check your details and try again.";
-
-
-        if (error && error.message) {
-
-          const msg =
-            error.message.toLowerCase();
-
-
-          if (
-            msg.includes("invalid login credentials")
-          ) {
-            errorMessage =
-              "Invalid email/phone or password.";
-          }
-
-          else if (
-            msg.includes("email not confirmed")
-          ) {
-            errorMessage =
-              "Please confirm your email before logging in.";
-          }
-
-          else if (
-            msg.includes("phone not confirmed")
-          ) {
-            errorMessage =
-              "Please verify your phone number first.";
-          }
-
-          else if (
-            msg.includes("rate limit")
-          ) {
-            errorMessage =
-              "Too many attempts. Please wait a little and try again.";
-          }
-
-          else {
-            errorMessage = error.message;
-          }
-        }
-
-
-        showMessage(errorMessage, "error");
-
-
-      } finally {
-
-        loginButton.disabled = false;
-        loginButton.textContent = "Login";
-
-      }
-
-    });
-
-
-    /*
-      Google and Phone buttons are intentionally not fake.
-      They will be connected after their Supabase providers/settings
-      are configured.
-    */
-
-    googleButton.addEventListener("click", function () {
-
-      showMessage(
-        "Google Login will be enabled after Google provider setup.",
-        "error"
-      );
-
-    });
-
-
-    phoneButton.addEventListener("click", function () {
-
-      showMessage(
-        "Phone Login will be enabled after phone authentication setup.",
-        "error"
-      );
-
-    });
-
-
-    /*
-      If the user is already logged in,
-      don't show the login page again.
-    */
-
-    async function checkExistingSession() {
-
-      try {
-
-        const { data, error } =
-          await supabaseClient.auth.getSession();
-
-        if (error) {
-          console.error("Session check error:", error);
-          return;
-        }
-
-        if (data && data.session) {
-
-          window.location.href =
-            getRedirectUrl();
-
-        }
-
-      } catch (error) {
-
-        console.error(
-          "Unexpected session error:",
-          error
-        );
-
-      }
-
-    }
-
-
-    checkExistingSession();
-
-  </script>
+</script>
 
 </body>
 </html>
